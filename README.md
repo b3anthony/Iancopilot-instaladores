@@ -76,7 +76,7 @@ Abre una terminal y pega esto. Descarga la versión más reciente y la instala:
 
 ```bash
 cd ~/Descargas 2>/dev/null || cd ~/Downloads
-v=$(curl -s https://api.github.com/repos/b3anthony/Iancopilot-instaladores/releases/latest | grep -m1 '"tag_name"' | cut -d'"' -f4 | sed 's/^v//')
+v=$(curl -sL https://api.github.com/repos/b3anthony/Iancopilot-instaladores/releases/latest | grep -m1 '"tag_name"' | cut -d'"' -f4 | sed 's/^v//')
 curl -LO "https://github.com/b3anthony/Iancopilot-instaladores/releases/latest/download/ian-copilot-linux-x64-$v.vsix"
 code --install-extension "ian-copilot-linux-x64-$v.vsix"
 ```

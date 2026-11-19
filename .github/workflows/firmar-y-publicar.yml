@@ -1,0 +1,60 @@
+# Firma una versión de Ian Copilot y la publica.
+#
+# Antes: crear la Release como BORRADOR con los .vsix y SHA256SUMS.txt
+#   gh release create v1.3.42 --draft --title "Ian Copilot 1.3.42" --notes-file notas.md \
+#     ian-copilot-win32-x64-1.3.42.vsix ian-copilot-linux-x64-1.3.42.vsix SHA256SUMS.txt
+# Después: Actions → «Firmar y publicar» → Run workflow → etiqueta (v1.3.42), o
+#   gh workflow run firmar-y-publicar.yml -f tag=v1.3.42
+#
+# El flujo comprueba las huellas, firma el manifiesto con el secret IAN_UPDATE_SIGNING_KEY
+# (comprobando que corresponde a keys/ian-copilot-update-signing.pub.pem, la clave que lleva la
+# extensión), lo sube a la Release y la publica como la más reciente. Los Ian Copilot instalados
+# la detectan y se actualizan solos.
+name: Firmar y publicar
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Etiqueta de la Release en borrador (por ejemplo v1.3.42)"
+        required: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: firmar-y-publicar
+
+jobs:
+  firmar:
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ inputs.tag }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Comprobar la etiqueta
+        run: |
+          [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "Etiqueta no válida: $TAG"; exit 1; }
+
+      - name: Descargar los instaladores y comprobar sus huellas
+        run: |
+          gh release download "$TAG" --dir dist --pattern '*.vsix' --pattern 'SHA256SUMS.txt'
+          cd dist && sha256sum -c SHA256SUMS.txt
+
+      - name: Firmar el manifiesto
+        env:
+          IAN_UPDATE_SIGNING_KEY: ${{ secrets.IAN_UPDATE_SIGNING_KEY }}
+        run: |
+          node .github/firmar-actualizacion.mjs --tag "$TAG" --dir dist \
+            --public-key keys/ian-copilot-update-signing.pub.pem > ian-copilot-update.signed.json
+
+      - name: Subir el manifiesto y publicar la Release
+        run: |
+          gh release upload "$TAG" ian-copilot-update.signed.json --clobber
+          gh release edit "$TAG" --draft=false --latest

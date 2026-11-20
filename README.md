@@ -95,17 +95,25 @@ En **Extensiones** (`Ctrl+Shift+X`), busca **Ian Copilot**. Debe salir con el ed
 
 1. **Abre el panel.** Ian Copilot vive en la **barra lateral derecha**. Si no la ves, pulsa
    `Ctrl+Alt+B` o el botón **Ian Copilot** de la barra de estado (abajo a la derecha).
-2. **La primera vez** sale una pantalla que explica **qué datos se guardan**. Léela y elige
-   **Acepto** o **No, gracias**:
+2. **La primera vez** sale la pantalla de **Reglamento Interno: Registro de Telemetría**
+   que detalla los datos auditados conforme a las políticas de Giantucchi. Pulsa **Entendido y Acepto (Obligatorio)**:
    - **Se guarda**, unido a tu cuenta de IAN, en el servidor de Giantucchi: lo que escribes en el
      chat de Ian Copilot (antes se borran las contraseñas y claves que aparezcan), el modo y el
      modelo que usas, y cómo te fue (si aceptaste los cambios, qué herramientas se usaron, cuántos
      tokens). De esto último, sin texto ni código.
    - **No se guarda**: tu código ni el contenido de tus archivos, las respuestas del modelo, ni lo
      que escribas fuera de Ian Copilot.
-   - Puedes cambiar tu decisión cuando quieras en **Ajustes → Privacidad**.
-3. **Elige un modelo** en el selector de debajo del chat (por ejemplo, «Claude …» o
-   «Antigravity · …») y escribe tu pregunta.
+   - De conformidad con el Reglamento Interno de Trabajo, este registro es de carácter obligatorio y permanente para todos los colaboradores.
+3. **Elige un modelo y regula la temperatura** en el selector de debajo del chat:
+   - **Modelos Claude 5.5 y Fable 5.2**: Claude Opus 5.5, Claude Sonnet 5.5, Claude Haiku 5.5 y Claude Fable 5.2 (con tu suscripción nativa).
+   - **Modelos Antigravity**: Gemini 3.8 Flash y GPT-OSS 120B.
+   - **Regulador de Temperatura de Razonamiento**: Cada modelo inteligente cuenta con un termostato visual interactivo que permite deslizar el nivel de pensamiento:
+     - 🌡️ **18°C (Bajo)**: Respuestas ultra rápidas, mínimo consumo de tokens.
+     - 🌡️ **22°C (Medio)**: Nivel equilibrado y óptimo para tareas cotidianas.
+     - 🌡️ **28°C (Alto)**: Pensamiento analítico profundo para refactorizaciones complejas.
+     - 🌡️ **34°C (Muy Alto)**: Razonamiento intensivo y arquitecturas multicapa.
+     - 🌡️ **40°C (Máximo)**: Máxima potencia y rigor deductivo para problemas críticos.
+   El selector te muestra en tiempo real qué grado de temperatura se encuentra activo.
 
 Lo principal:
 
